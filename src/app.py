@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User, Characters, Planets
 #from models import Person
 
 app = Flask(__name__)
@@ -25,6 +25,27 @@ MIGRATE = Migrate(app, db)
 db.init_app(app)
 CORS(app)
 setup_admin(app)
+
+test = [
+{
+"id": 1,
+"name": 'betolix'
+}
+]
+
+
+plnts = [
+{
+    "id": 1,
+    "name": 'earth'
+    },
+    {
+    "id": 2,
+    "name": 'mars'
+
+
+    }
+]
 
 # Handle/serialize errors like a JSON object
 @app.errorhandler(APIException)
@@ -44,6 +65,16 @@ def handle_hello():
     }
 
     return jsonify(response_body), 200
+
+@app.route('/characters', methods=['GET'])
+def get_characters():
+    json_text = jsonify(test)
+    return json_text, 200
+
+@app.route('/planets', methods=['GET'])
+def get_planets():
+    json_text = jsonify(plnts)
+    return json_text, 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
